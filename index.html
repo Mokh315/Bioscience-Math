@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d9488">
+<meta name="description" content="BioSense–Math: interactive simulation and operational dashboard for the five-compartment cellular-stress model.">
+<title>BioSense–Math</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="BioSense–Math">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="appbar">
+  <div class="brand">
+    <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+      <rect x="1" y="1" width="46" height="46" rx="12" fill="url(#g)"/>
+      <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0d9488"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient></defs>
+      <path d="M6 30c5 0 5-9 10-9s5 9 10 9 5-12 10-12 5 6 6 6" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/>
+      <circle cx="36" cy="14" r="4.2" fill="#fff" opacity=".95"/>
+    </svg>
+    <div class="brand-txt">
+      <strong data-i18n="appTitle">بايوسينس–ماث</strong>
+      <span data-i18n="appSubtitle"></span>
+    </div>
+  </div>
+  <div class="actions">
+    <button id="btnInstall" class="btn btn-primary hidden" type="button">
+      <svg viewBox="0 0 24 24" class="ic"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-i18n="install">تثبيت التطبيق</span>
+    </button>
+    <button id="btnLang" class="btn" type="button" title="language"><span id="langLabel">English</span></button>
+    <button id="btnTheme" class="btn btn-icon" type="button" aria-label="theme">
+      <svg viewBox="0 0 24 24" class="ic"><path id="themeIcon" d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-view="sim" role="tab"><span class="tab-ic">◈</span><span data-i18n="tabSim">المحاكاة</span></button>
+  <button class="tab" data-view="dash" role="tab"><span class="tab-ic">▤</span><span data-i18n="tabDash">لوحة القيادة</span></button>
+  <button class="tab" data-view="ref" role="tab"><span class="tab-ic">∑</span><span data-i18n="tabRef">النموذج والمرجع</span></button>
+</nav>
+
+<main>
+
+<!-- ================= SIMULATION ================= -->
+<section id="view-sim" class="view active">
+
+  <div class="statusbar" id="statusbar"></div>
+
+  <div class="layout">
+    <aside class="panel">
+      <div class="panel-block">
+        <h3 data-i18n="presets">حالات جاهزة</h3>
+        <div class="chips" id="presets"></div>
+      </div>
+
+      <div class="panel-block">
+        <h3 data-i18n="parameters">المعاملات</h3>
+        <div id="paramControls" class="controls"></div>
+      </div>
+
+      <div class="panel-block">
+        <h3 data-i18n="initialConditions">الشروط الابتدائية</h3>
+        <div id="icControls" class="controls"></div>
+      </div>
+
+      <div class="panel-block">
+        <h3 data-i18n="horizon">أفق الزمن</h3>
+        <div id="horizonControl" class="controls"></div>
+        <label class="switch">
+          <input type="checkbox" id="chkLive"><span class="track"></span>
+          <span data-i18n="liveMode">تشغيل حي</span>
+        </label>
+      </div>
+
+      <div class="panel-block">
+        <h3 data-i18n="showVars">المتغيرات المعروضة</h3>
+        <div class="chips" id="varToggles"></div>
+      </div>
+
+      <div class="panel-block row-btns">
+        <button class="btn" id="btnResetSim" type="button"><span data-i18n="reset">استعادة</span></button>
+        <button class="btn" id="btnCsv" type="button"><span data-i18n="exportCsv">تصدير CSV</span></button>
+        <button class="btn" id="btnPng" type="button"><span data-i18n="exportPng">تصدير صورة</span></button>
+        <button class="btn" id="btnLink" type="button"><span data-i18n="copyLink">نسخ رابط الحالة</span></button>
+      </div>
+    </aside>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="timeSeries">السلاسل الزمنية</h3><div class="legend" id="legendTs"></div></div>
+        <div class="canvas-wrap tall"><canvas id="cTs"></canvas></div>
+      </div>
+
+      <div class="card-row">
+        <div class="card">
+          <div class="card-head"><h3 data-i18n="phasePortrait">مستوى الطور H–B</h3></div>
+          <div class="canvas-wrap"><canvas id="cPh"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 data-i18n="spectrum">طيف اليعقوبي</h3></div>
+          <div class="canvas-wrap"><canvas id="cEig"></canvas></div>
+          <div class="mini" id="eigList"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="bifurcation">مخطط التشعّب في β</h3></div>
+        <div class="canvas-wrap tall"><canvas id="cBif"></canvas></div>
+        <div class="mini" id="bifNote"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="equilibrium">نقطة التوازن</h3></div>
+        <div id="eqTable"></div>
+        <div class="verdict" id="verdict"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<section id="view-dash" class="view">
+  <div class="layout dash">
+    <aside class="panel">
+      <div class="panel-block">
+        <h3 data-i18n="inputMode">طريقة الإدخال</h3>
+        <div class="seg" id="inputMode">
+          <button class="seg-btn active" data-mode="sensors" data-i18n="inputSensors">من الحسّاسات</button>
+          <button class="seg-btn" data-mode="direct" data-i18n="inputDirect">إدخال مباشر</button>
+        </div>
+      </div>
+
+      <div class="panel-block" id="sensorBlock">
+        <h3 data-i18n="sensors">قراءات الحسّاسات</h3>
+        <div id="sensorControls" class="controls"></div>
+        <details class="calib">
+          <summary data-i18n="calibration">المعايرة</summary>
+          <p class="hint" data-i18n="calibHelp"></p>
+          <div id="calibControls" class="controls"></div>
+        </details>
+      </div>
+
+      <div class="panel-block hidden" id="directBlock">
+        <h3 data-i18n="derivedState">الحالة المحسوبة</h3>
+        <div id="directControls" class="controls"></div>
+      </div>
+
+      <div class="panel-block">
+        <h3 data-i18n="parameters">المعاملات</h3>
+        <details><summary id="dashParamSummary"></summary>
+          <div id="dashParamControls" class="controls"></div>
+        </details>
+      </div>
+
+      <div class="panel-block row-btns">
+        <button class="btn btn-primary" id="btnAddReading" type="button"><span data-i18n="addReading">تسجيل القراءة</span></button>
+        <label class="switch">
+          <input type="checkbox" id="chkAlertSound"><span class="track"></span>
+          <span data-i18n="alertSound">تنبيه صوتي/اهتزاز</span>
+        </label>
+      </div>
+    </aside>
+
+    <div class="cards">
+      <div class="card device-card">
+        <div class="card-head"><h3 data-i18n="deviceView">واجهة الجهاز</h3></div>
+        <div class="device">
+          <div class="device-screen">
+            <div class="dev-readouts" id="devReadouts"></div>
+            <div class="dev-r0">
+              <canvas id="cGauge" class="gauge"></canvas>
+            </div>
+          </div>
+          <div class="device-status" id="devStatus">
+            <span class="led" id="devLed"></span>
+            <span id="devStatusTxt"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="alertPanel">مؤشر الإنذار</h3></div>
+        <div id="alertBox"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="ews">إشارات الإنذار المبكر</h3><div class="mini" id="ewsWin"></div></div>
+        <p class="hint" data-i18n="ewsHelp"></p>
+        <div class="ews-grid" id="ewsGrid"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="forecast">التنبؤ</h3>
+          <button class="btn btn-sm" id="btnForecast"><span data-i18n="forecastRun">تنبّأ</span></button></div>
+        <div class="canvas-wrap"><canvas id="cFc"></canvas></div>
+        <div class="mini" id="fcNote"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="estimation">تقدير المعاملات</h3>
+          <button class="btn btn-sm" id="btnEstimate"><span data-i18n="estimate">قدِّر</span></button></div>
+        <div id="estBox"><p class="hint" data-i18n="estNeed"></p></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h3 data-i18n="readingLog">سجلّ القراءات</h3>
+          <div class="row-btns">
+            <button class="btn btn-sm" id="btnExportLog"><span data-i18n="exportLog">تصدير CSV</span></button>
+            <button class="btn btn-sm" id="btnImportLog"><span data-i18n="importLog">استيراد</span></button>
+            <button class="btn btn-sm" id="btnReport"><span data-i18n="report">تقرير</span></button>
+            <button class="btn btn-sm btn-danger" id="btnClearLog"><span data-i18n="clearLog">مسح</span></button>
+            <input type="file" id="fileImport" accept=".csv,text/csv" hidden>
+          </div>
+        </div>
+        <div class="canvas-wrap short"><canvas id="cLog"></canvas></div>
+        <div class="table-wrap" id="logTable"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REFERENCE ================= -->
+<section id="view-ref" class="view">
+  <div class="cards ref">
+    <div class="card">
+      <div class="card-head"><h3 data-i18n="refModel">المعادلات الحاكمة</h3></div>
+      <div class="eqbox">
+        <div class="eq"><span class="lhs">dH/dt</span><span class="rhs">= a·H·(1 − H/K) − β·B·H</span></div>
+        <div class="eq"><span class="lhs">dS/dt</span><span class="rhs">= β·B·H − (γ + μ)·S + η·R</span></div>
+        <div class="eq"><span class="lhs">dD/dt</span><span class="rhs">= μ·S − δ·D</span></div>
+        <div class="eq"><span class="lhs">dB/dt</span><span class="rhs">= λ·D − θ·B</span></div>
+        <div class="eq"><span class="lhs">dR/dt</span><span class="rhs">= σ·H − ρ·R</span></div>
+      </div>
+      <div class="loop">
+        <span data-i18n="refLoop">حلقة التغذية الراجعة</span>:
+        <code>H →β S →μ D →λ B →(−β) H</code>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3 data-i18n="refR0">عدد التكاثر الأساسي</h3></div>
+      <div class="r0box">R₀ = β·K·μ·λ / [(γ + μ)·δ·θ]</div>
+      <div id="refR0Live" class="mini"></div>
+      <div class="card-head"><h3 data-i18n="refSensitivity">مؤشرات الحساسية</h3></div>
+      <div id="sensTable"></div>
+      <p class="hint" data-i18n="refSensNote"></p>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3 data-i18n="refParams">جدول المعاملات المرجعية</h3></div>
+      <div id="refParamTable"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3 data-i18n="refDevice">طبقات الجهاز</h3></div>
+      <div class="layer"><h4 data-i18n="refLayerSense"></h4><p data-i18n="refLayerSenseTxt"></p></div>
+      <div class="layer"><h4 data-i18n="refLayerCompute"></h4><p data-i18n="refLayerComputeTxt"></p></div>
+      <div class="layer"><h4 data-i18n="refLayerAlert"></h4><p data-i18n="refLayerAlertTxt"></p></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3 data-i18n="refAbout">عن التطبيق</h3></div>
+      <p data-i18n="refAboutTxt"></p>
+      <div class="card-head"><h3 data-i18n="refPaper">المرجع العلمي</h3></div>
+      <p class="cite" data-i18n="refPaperTxt"></p>
+      <p class="hint" id="installHintTxt"></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/model.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

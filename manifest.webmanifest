@@ -1,0 +1,32 @@
+{
+  "name": "BioSense–Math — مرصد الإجهاد الخلوي",
+  "short_name": "BioSense–Math",
+  "description": "محاكاة تفاعلية ولوحة قيادة تشغيلية لنموذج بايوسينس–ماث للإجهاد الخلوي — Interactive simulation and operational dashboard for the BioSense–Math cellular-stress model.",
+  "id": "biosense-math",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f4f6f9",
+  "theme_color": "#0d9488",
+  "lang": "ar",
+  "dir": "auto",
+  "categories": ["education", "productivity", "utilities", "medical"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "screenshots/narrow-sim.png", "sizes": "414x896", "type": "image/png", "form_factor": "narrow", "label": "المحاكاة التفاعلية" },
+    { "src": "screenshots/narrow-dash.png", "sizes": "414x896", "type": "image/png", "form_factor": "narrow", "label": "لوحة القيادة التشغيلية" },
+    { "src": "screenshots/wide-sim.png", "sizes": "1280x720", "type": "image/png", "form_factor": "wide", "label": "Interactive simulation" },
+    { "src": "screenshots/wide-dash.png", "sizes": "1280x720", "type": "image/png", "form_factor": "wide", "label": "Operational dashboard" }
+  ],
+  "shortcuts": [
+    { "name": "المحاكاة / Simulation", "short_name": "Simulation", "url": "./#view=sim", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "لوحة القيادة / Dashboard", "short_name": "Dashboard", "url": "./#view=dash", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

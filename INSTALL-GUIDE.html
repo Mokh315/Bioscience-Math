@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دليل نشر وتثبيت تطبيق BioSense–Math</title>
+<style>
+  :root{--bg:#f4f6f9;--card:#fff;--fg:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0d9488;--accent2:#1d4ed8;--warn:#d97706}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:"Segoe UI","Noto Naskh Arabic",Tahoma,system-ui,sans-serif;line-height:1.7}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+  header{background:linear-gradient(135deg,#0d9488,#1d4ed8);color:#fff;border-radius:18px;padding:26px 24px;margin-bottom:22px}
+  header h1{margin:0 0 6px;font-size:1.5rem}
+  header p{margin:0;opacity:.92;font-size:.95rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(15,23,42,.05),0 10px 26px -18px rgba(15,23,42,.4)}
+  h2{font-size:1.12rem;margin:0 0 10px;color:var(--accent)}
+  h3{font-size:.98rem;margin:16px 0 6px}
+  ol,ul{margin:8px 0;padding-inline-start:22px}
+  li{margin:5px 0}
+  code,pre{font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;text-align:left}
+  code{background:#eef2f7;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.86em}
+  pre{background:#0f172a;color:#e2e8f0;border-radius:12px;padding:14px 16px;overflow:auto;font-size:.84rem;line-height:1.6}
+  pre code{background:none;border:0;color:inherit;padding:0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:start;vertical-align:top}
+  th{background:#f1f5f9;font-size:.86rem;color:var(--muted)}
+  .badge{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:2px 11px;font-size:.78rem;font-weight:700;margin-inline-end:8px}
+  .tip{border-inline-start:4px solid var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:.92rem}
+  .warn{border-inline-start:4px solid var(--warn);background:color-mix(in srgb,var(--warn) 10%,transparent);border-radius:10px;padding:10px 14px;margin:12px 0;font-size:.92rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .mini{font-size:.85rem;color:var(--muted)}
+  .en{direction:ltr;text-align:left}
+  hr{border:0;border-top:1px dashed var(--line);margin:26px 0}
+  .step{display:flex;gap:12px;align-items:flex-start;margin:12px 0}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>دليل نشر وتثبيت تطبيق BioSense–Math</h1>
+  <p>تطبيق ويب قابل للتثبيت (PWA) — محاكاة تفاعلية + لوحة قيادة تشغيلية — عربي/إنجليزي — يعمل دون إنترنت</p>
+</header>
+
+<div class="card">
+  <h2>ما الذي تحصل عليه</h2>
+  <div class="grid">
+    <div><strong>وضع المحاكاة</strong><div class="mini">تحكّم مباشر في المعاملات الأحد عشر والشروط الابتدائية، سلاسل زمنية، مستوى الطور H–B، طيف اليعقوبي، مخطط التشعّب في β مع غلاف الدورة الحدّية، وحساب فوري لـ R₀ وعتبة هوبف β_H وهامش الأمان.</div></div>
+    <div><strong>لوحة القيادة التشغيلية</strong><div class="mini">إدخال يدوي لقراءات الحسّاسات الخمسة (حرارة، رطوبة، ضوئي، pH، تدفق) أو للمتغيرات مباشرة، معايرة قابلة للتعديل، مؤشر إنذار بثلاثة مستويات مع أسبابه، إشارات إنذار مبكر (التباين والارتباط الذاتي)، تنبؤ بالمسار وزمن بلوغ حد الإنذار، تقدير المعاملات من السجلّ، سجلّ قراءات مع تصدير CSV وتقرير قابل للطباعة.</div></div>
+    <div><strong>ثنائي اللغة</strong><div class="mini">زر واحد يبدّل بين العربية والإنجليزية مع عكس كامل للاتجاه (RTL/LTR)، ومظهر فاتح/داكن.</div></div>
+    <div><strong>يعمل دون إنترنت</strong><div class="mini">بعد أول فتح يُخزَّن التطبيق كاملاً على الجهاز عبر Service Worker، ولا تغادر أي بيانات جهازك.</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2><span class="badge">الطريقة ١</span> نشر فوري خلال دقيقة — Netlify Drop</h2>
+  <p class="mini">أسرع طريقة للحصول على رابط HTTPS قابل للتثبيت، بدون تثبيت أي برنامج وبدون حساب مطوّر.</p>
+  <div class="step"><span class="n">1</span><div>فُكّ ضغط الملف <code>biosense-math-app.zip</code> على حاسوبك.</div></div>
+  <div class="step"><span class="n">2</span><div>افتح <code>https://app.netlify.com/drop</code> في المتصفح.</div></div>
+  <div class="step"><span class="n">3</span><div>اسحب <strong>المجلد</strong> <code>biosense-pwa</code> كاملاً وأفلته داخل الصفحة (أو اسحب ملف ZIP مباشرة).</div></div>
+  <div class="step"><span class="n">4</span><div>خلال ثوانٍ يظهر رابط مثل <code>https://tender-owl-123456.netlify.app</code> — هذا هو <strong>رابط التثبيت</strong>.</div></div>
+  <div class="step"><span class="n">5</span><div>افتح الرابط على الجوال وثبّته (انظر الجدول أدناه). يمكنك تغيير الاسم من <em>Site settings → Change site name</em> إلى شيء مثل <code>biosense-math</code>.</div></div>
+  <div class="tip">لمشاركة الرابط مع الجوال بسرعة: أرسله لنفسك عبر أي تطبيق مراسلة، أو أنشئ رمز QR له من أي موقع لتوليد QR.</div>
+</div>
+
+<div class="card">
+  <h2><span class="badge">الطريقة ٢</span> رابط دائم مجاني — GitHub Pages</h2>
+  <p class="mini">مناسب للنشر الأكاديمي المستقر وربط التطبيق بالورقة البحثية.</p>
+  <ol>
+    <li>أنشئ حساباً على <code>github.com</code> إن لم يكن لديك، ثم مستودعاً جديداً عاماً باسم <code>biosense-math</code>.</li>
+    <li>ارفع محتويات مجلد <code>biosense-pwa</code> (وليس المجلد نفسه) عبر زر <em>Add file → Upload files</em>، أو عبر الطرفية:</li>
+  </ol>
+<pre><code>cd biosense-pwa
+git init
+git add .
+git commit -m "BioSense-Math PWA"
+git branch -M main
+git remote add origin https://github.com/USERNAME/biosense-math.git
+git push -u origin main</code></pre>
+  <ol start="3">
+    <li>في المستودع: <em>Settings → Pages → Source: <code>main</code> / <code>(root)</code> → Save</em>.</li>
+    <li>بعد دقيقة يصبح الرابط جاهزاً: <code>https://USERNAME.github.io/biosense-math/</code></li>
+  </ol>
+  <div class="warn">تأكد أن ملف <code>index.html</code> في جذر المستودع مباشرة، وليس داخل مجلد فرعي، وإلا فلن يعمل الرابط.</div>
+</div>
+
+<div class="card">
+  <h2><span class="badge">الطريقة ٣</span> تجربة محلية على حاسوبك</h2>
+<pre><code>cd biosense-pwa
+python3 -m http.server 8000
+# ثم افتح: http://localhost:8000</code></pre>
+  <p class="mini"><code>localhost</code> يُعامل كسياق آمن، لذا يعمل التثبيت والعمل دون إنترنت أثناء التجربة على نفس الحاسوب. أما التثبيت من الجوال فيتطلب رابط HTTPS (الطريقتان ١ أو ٢).</p>
+</div>
+
+<div class="card">
+  <h2>التثبيت على الأجهزة</h2>
+  <table>
+    <tr><th>الجهاز</th><th>الخطوات</th></tr>
+    <tr><td><strong>Android — Chrome</strong></td><td>افتح الرابط ← اضغط زر «تثبيت التطبيق» أعلى الشاشة، أو ⋮ ← «تثبيت التطبيق»/«إضافة إلى الشاشة الرئيسية» ← تأكيد.</td></tr>
+    <tr><td><strong>iPhone / iPad — Safari</strong></td><td>افتح الرابط في <em>Safari</em> ← زر المشاركة ⬆ ← «إضافة إلى الشاشة الرئيسية» ← «إضافة». <span class="mini">(على iOS يجب استخدام Safari تحديداً)</span></td></tr>
+    <tr><td><strong>Windows / macOS — Chrome أو Edge</strong></td><td>افتح الرابط ← أيقونة التثبيت ⊕ في يمين شريط العنوان، أو ⋮ ← <em>Install BioSense–Math</em>.</td></tr>
+    <tr><td><strong>Linux — Chromium</strong></td><td>⋮ ← <em>Install BioSense–Math</em>.</td></tr>
+  </table>
+  <p class="mini">بعد التثبيت تظهر أيقونة التطبيق على الشاشة الرئيسية/سطح المكتب، ويفتح بنافذة مستقلة بلا شريط عنوان، ويعمل كاملاً دون إنترنت.</p>
+</div>
+
+<div class="card">
+  <h2>ملاحظات تشغيلية</h2>
+  <ul>
+    <li><strong>التحديث:</strong> عند تعديل أي ملف، غيّر رقم الإصدار في أول <code>sw.js</code> (مثلاً <code>bsm-v1.0.3</code>) ثم أعد النشر؛ سيلتقط المتصفح النسخة الجديدة تلقائياً.</li>
+    <li><strong>الخصوصية:</strong> جميع الحسابات داخل المتصفح، ولا تُرسل أي بيانات إلى أي خادم. سجلّ القراءات محفوظ محلياً على الجهاز.</li>
+    <li><strong>مشاركة حالة معيّنة:</strong> زر «نسخ رابط الحالة» ينتج رابطاً يتضمن كل المعاملات والشروط الابتدائية، مفيد لمشاركة سيناريو مع زميل أو لإدراجه في ورقة أو محاضرة.</li>
+    <li><strong>التقرير:</strong> زر «تقرير قابل للطباعة» في لوحة القيادة ينتج صفحة تقرير (حالة، R₀، β_H، الإنذار، سجلّ القراءات) يمكن حفظها PDF من نافذة الطباعة.</li>
+  </ul>
+</div>
+
+<hr>
+
+<div class="card en">
+  <h2>English — quick reference</h2>
+  <p class="mini">Installable PWA implementing the BioSense–Math five-compartment cellular-stress model: interactive simulation + operational dashboard, Arabic/English with full RTL/LTR, works fully offline.</p>
+  <h3>Publish</h3>
+  <ul>
+    <li><strong>Fastest:</strong> drag the <code>biosense-pwa</code> folder onto <code>https://app.netlify.com/drop</code> → instant HTTPS link.</li>
+    <li><strong>Permanent:</strong> push the folder contents to a GitHub repo → <em>Settings → Pages → main / (root)</em> → <code>https://USERNAME.github.io/biosense-math/</code></li>
+    <li><strong>Local:</strong> <code>python3 -m http.server 8000</code> → <code>http://localhost:8000</code></li>
+  </ul>
+  <h3>Install</h3>
+  <ul>
+    <li>Android/Chrome: “Install app” button, or ⋮ → Install.</li>
+    <li>iOS/Safari: Share ⬆ → Add to Home Screen.</li>
+    <li>Desktop Chrome/Edge: ⊕ icon in the address bar → Install.</li>
+  </ul>
+  <h3>Model</h3>
+<pre><code>H' = a·H·(1 − H/K) − β·B·H
+S' = β·B·H − (γ + μ)·S + η·R
+D' = μ·S − δ·D
+B' = λ·D − θ·B
+R' = σ·H − ρ·R        R₀ = β·K·μ·λ / [(γ + μ)·δ·θ]</code></pre>
+</div>
+
+<p class="mini" style="text-align:center;margin-top:24px">
+BioSense–Math · مبني على ورقة «Global well-posedness, stability and Hopf bifurcation in the BioSense–Math cellular-stress model» — قسم الرياضيات، كلية العلوم، جامعة القصيم.
+</p>
+
+</div>
+</body>
+</html>
